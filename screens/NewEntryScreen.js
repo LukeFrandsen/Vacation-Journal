@@ -57,19 +57,20 @@ export function NewEntryScreen({ navigation }) {
 
   const pickImage = async () => {
     try {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: [ImagePicker.MediaType.IMAGE],
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled && result.assets && result.assets.length > 0) {
-        // Use `assets` to get the selected image
-        setPhotos([...photos, result.assets[0].uri]);
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images, // Correct usage
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+  
+      console.log('ImagePicker result:', result);
+  
+      if (!result.canceled) {
+        setPhotos([...photos, result.assets[0].uri]); // Check if `result.assets` exists
       }
     } catch (error) {
-      console.log('Error picking image:', error);
+      console.error('Error picking image:', error);
     }
   };
 
